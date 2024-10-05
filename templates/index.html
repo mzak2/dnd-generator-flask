@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DnD Generator</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="header">
+            <h1>YATTG</h1>
+            <h6>(Yet Another Table-Top Generator)</h6>
+            <details class="about">
+                <summary><span class="about-box" style="border: 1px solid black; padding: 5px; margin-bottom: 10px;">About:</span></summary>
+                <span>DnD Generator by Mark Z, see my github</span>
+            </details>
+        </div>
+
+        <div class="content">
+            <div class="aside-1">
+                <div id="category-container">
+                    <h2>Select a Category to Roll</h2>
+                    <ul id="category-list">
+                        <!-- Flask will populate this list with categories and subcategories -->
+                        {% for category in menu %}
+                        <li>
+                            <strong>{{ category['category_name'] }}</strong>
+                            {% if category.subcategories %}
+                            <ul>
+                                {% for subcategory in category.subcategories %}
+                                <li>
+                                    <button class="roll-btn" data-category-id="{{ subcategory['id'] }}">
+                                        {{ subcategory['name'] }}
+                                    </button>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="main">
+                <div id="result-container">
+                    <h2>Result:</h2>
+                    <textarea id="result" readonly></textarea>
+                </div>
+                <div id="result-table">
+                    <table>
+                        <caption>Result Table:</caption>
+                        <tr>
+                            <th>Description 1</th>
+                            <th>Description 2</th>
+                            <th>Description 3</th>
+                        </tr>
+                        <tr>
+                            <td>Result 1</td>
+                            <td>Result 2</td>
+                            <td>Result 3</td>
+                        </tr>
+                        <tr>
+                            <td>Result 1</td>
+                            <td>Result 2</td>
+                            <td>Result 3</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <div class="aside-2">
+                <div class="child1">
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                </div>
+                <div class="child2">
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                    <span class="dice"></span> <span class="dice"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            (YATTG is not associated with Wizards of the Coast or any other Dungeons and Dragons affiliates.)
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $(".roll-btn").click(function () {
+                var categoryId = $(this).data("category-id");
+                $.ajax({
+                    url: "/roll",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ "category_id": categoryId }),
+                    success: function (response) {
+                        $("#result").text(response.result);
+                    },
+                    error: function () {
+                        $("#result").text("Error rolling the table.");
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
