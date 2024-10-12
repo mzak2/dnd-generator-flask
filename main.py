@@ -1,6 +1,7 @@
 import warnings
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 import os
+import psycopg2 # for some reason isn't imported for SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from flask import Flask, render_template, jsonify, request
