@@ -1,12 +1,15 @@
 import warnings
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
+import pandas as pd
 import os
 import psycopg2 # for some reason isn't imported for SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from flask import Flask, render_template, jsonify, request
 from database.menu import MainMenu
-from database.table import getEnumTable, getEnumDF
+from database.table import getEnumDF
+from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
+    wildernessString
 
 #TODO convert table functions to data frames and then make a convertToString taking the dataframe
 #TODO populate the dataframe and string conversion into the html
@@ -41,22 +44,36 @@ def index():
     session.close()
     return render_template("index.html", menu=menu)
 
+
 @app.route("/roll", methods=["POST"])
 def roll():
     category_id = request.json.get("category_id")
     session = Session()
-    result_json = getEnumTable(session, category_id)
-    session.close()
-    return jsonify({"result_json": result_json})
 
-@app.route("/roll-df", methods=["POST"])
-def roll_df():
-    category_id = request.json.get("category_id")
-    session = Session()
-    result_df = getEnumDF(session, category_id)
-    session.close()
-    result_html = result_df.to_html(classes="table table-bordered")
-    return jsonify({"result_df": result_html})
+    try:
+        result_df = getEnumDF(session, category_id)
+
+        if category_id == 4:
+            result_str = townEventString(result_df)
+        elif category_id == 29:
+            result_str = magicItemString(result_df)
+        elif category_id == 30:
+            result_str = potionsString(result_df)
+        elif category_id > 0 and category_id < 6 or category_id == 9:
+            result_str = civilizationString(result_df)
+        elif category_id >= 6 and category_id <15 and category_id != 9:
+            result_str = wildernessString(result_df)
+        else:
+            result_str = result_df.iloc[0, 1] if not result_df.empty else "No result available."
+
+        result_html = result_df.to_html(classes="table table-bordered")
+
+        return jsonify({"result_string": result_str, "result_df": result_html})
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
+    finally:
+        session.close()
 
 
 if __name__ == "__main__":

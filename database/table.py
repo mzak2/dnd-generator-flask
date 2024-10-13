@@ -1,12 +1,10 @@
 import warnings
-
-from database.string_templates import wildernessString, townEventString, potionsString, magicItemString, \
-    civilizationString
-
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 import pandas as pd
 import random
 from sqlalchemy import create_engine, text
+from database.string_templates import wildernessString, townEventString, potionsString, magicItemString, \
+    civilizationString
 
 def getMaxRoll(session, table):
     try:
@@ -23,10 +21,6 @@ def getMaxRoll(session, table):
     finally:
         session.close()
 
-
-def convertToString(df):
-    result = df.iloc[0, 1]
-    return result
 
 def rollTable(session, table):
     try:
@@ -191,69 +185,6 @@ def rollWilderness(session, table):
         session.close()
 
 
-def getEnumTable(session, choice):
-    enum_list = {
-        "1": "castles",
-        "2": "churches",
-        "3": "cities",
-        "4": "events",
-        "5": "villages",
-        "6": "deserts",
-        "7": "forests",
-        "8": "grasslands",
-        "9": "graveyards",
-        "10": "beaches",
-        "11": "mountains",
-        "12": "swamps",
-        "13": "setbacks",
-        "14": "tundras",
-        "15": "adventurers",
-        "16": "wizards",
-        "17": "bbegs",
-        "18": "monsters",
-        "19": "nobles",
-        "20": "priests",
-        "21": "npcs",
-        "22": "villagers",
-        "23": "blessings",
-        "24": "curses",
-        "25": "divinations",
-        "26": "meleecombat",
-        "27": "nightmares",
-        "28": "spellcasting",
-        "29": "magicitems",
-        "30": "potions",
-        "31": "items",
-        "32": "equipment"
-    }
-
-    # get table name of corresponding number for easy SQL queries
-    table = enum_list.get(f"{choice}")
-    choice_num = int(choice)
-
-    # Logic to select the correct output based on categories or specific tables:
-    if choice_num == 4:
-        result_df = rollTownEvent(session, table)
-        result_str = townEventString(result_df)
-    elif choice_num == 29:
-        result_df = rollMagicItems(session, table)
-        result_str = magicItemString(result_df)
-    elif choice_num == 30:
-        result_df = rollPotions(session, table)
-        result_str = potionsString(result_df)
-    elif 1 <= choice_num <= 5 or choice_num == 9:
-        result_df = rollCivilization(session, table)
-        result_str = civilizationString(result_df)
-    elif 6 <= choice_num <= 14 and choice_num != 9:
-        result_df = rollWilderness(session, table)
-        result_str = wildernessString(result_df)
-    else:
-        result_df = rollTable(session, table)
-        result_str = result_df.iloc[0, 1]
-
-    return result_str
-
-
 def getEnumDF(session, choice):
     enum_list = {
         "1": "castles",
@@ -294,7 +225,7 @@ def getEnumDF(session, choice):
     table = enum_list.get(f"{choice}")
     choice_num = int(choice)
 
-    # Logic to select the correct output based on categories or specific tables:
+    # logic to select the correct output based on categories or specific tables:
     if choice_num == 4:
         return rollTownEvent(session, table)
     elif choice_num == 29:

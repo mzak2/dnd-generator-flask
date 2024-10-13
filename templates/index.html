@@ -101,27 +101,13 @@
                     contentType: "application/json",
                     data: JSON.stringify({ "category_id": categoryId }),
                     success: function (response) {
-                        $("#result-json").text(response.result_json);
-                    },
-                    error: function () {
-                        $("#result-json").text("Error rolling the table.");
-                    }
-                });
-            });
-        });
-
-        $(document).ready(function () {
-            $(".roll-btn").click(function () {
-                var categoryId = $(this).data("category-id");
-                $.ajax({
-                    url: "/roll-df",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify({ "category_id": categoryId }),
-                    success: function (response) {
+                        // Show the JSON result in the textbox
+                        $("#result-json").text(response.result_string);
+                        // Show the DataFrame as an HTML table
                         $("#result-table").html(response.result_df);
                     },
                     error: function () {
+                        $("#result-json").text("Error rolling the table.");
                         $("#result-table").html("Error rolling the table.");
                     }
                 });
