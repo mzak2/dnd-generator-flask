@@ -1,4 +1,8 @@
 import warnings
+
+from database.string_templates import wildernessString, townEventString, potionsString, magicItemString, \
+    civilizationString
+
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 import pandas as pd
 import random
@@ -19,6 +23,11 @@ def getMaxRoll(session, table):
     finally:
         session.close()
 
+
+def convertToString(df):
+    result = df.iloc[0, 1]
+    return result
+
 def rollTable(session, table):
     try:
         max_roll = getMaxRoll(session, table)
@@ -28,14 +37,7 @@ def rollTable(session, table):
         sql_query = text(f"SELECT * FROM {table} WHERE id = {roll}")
         result_df = pd.read_sql_query(sql_query, session.bind)
 
-        if "description" in result_df.columns:
-            result = result_df.iloc[0]['description']
-        elif "name" in result_df.columns:
-            result = result_df.iloc[0]['name']
-
-        # console output for testing
-        # print(f"Result: {result}")
-        return result
+        return result_df
 
     except Exception as e:
         session.rollback()
@@ -69,18 +71,20 @@ def rollCivilization(session, table):
         elif table == "graveyards":
             table = "graveyard"
 
-        # format our string for returning to the user
-        # table[:-1] removes the s from the table name to make it grammatically correct
-        result = (
-                f"While traveling through the {table}, " +
-                f"they come upon a/an {adjective} {terrain} {civil_desc}. " +
-                f"There appears to be a/an... {purpose} and inside is/a: " +
-                f"{item_1}, {item_2}, {item_3}, {item_4}, {item_5}"
-        )
+        result_df = pd.DataFrame({
+            "table": [table],
+            "adjective": [adjective.iloc[0, 1]],
+            "terrain": [terrain.iloc[0, 1]],
+            "purpose": [purpose.iloc[0, 1]],
+            "civil_desc": [civil_desc.iloc[0, 1]],
+            "item_1": [item_1.iloc[0, 1]],
+            "item_2": [item_2.iloc[0, 1]],
+            "item_3": [item_3.iloc[0, 1]],
+            "item_4": [item_4.iloc[0, 1]],
+            "item_5": [item_5.iloc[0, 1]],
+        })
 
-        # console output for testing
-        # print(result)
-        return result
+        return result_df
 
     except Exception as e:
         print(f"Error: {e}")
@@ -94,11 +98,12 @@ def rollMagicItems(session, table):
         description = rollTable(session, table)
         equip_type = rollTable(session, "equipment")
 
-        result = f"You find a: {equip_type} with the effect of: {description}"
+        result_df = pd.DataFrame({
+            "equip_type": [equip_type.iloc[0, 1]],
+            "description": [description.iloc[0, 1]]
+        })
 
-        # console output for testing
-        # print(result)
-        return result
+        return result_df
 
     except Exception as e:
         print(f"Error: {e}")
@@ -112,11 +117,12 @@ def rollPotions(session, table):
         effect = rollTable(session, table)
         duration = rollTable(session, "durations")
 
-        result = f"The potion's effect is: {effect} with a duration of {duration}"
+        result_df = pd.DataFrame({
+            "effect": [effect.iloc[0, 1]],
+            "duration": [duration.iloc[0, 1]]
+        })
 
-        # console output for testing
-        # print(result)
-        return result
+        return result_df
 
     except Exception as e:
         print(f"Error: {e}")
@@ -131,11 +137,13 @@ def rollTownEvent(session, table):
         npc_1 = rollTable(session, "npcs")
         npc_2 = rollTable(session, "npcs")
 
-        result = f"While traveling through town, you come upn a: {npc_1}, currently: {event}, with a/an: {npc_2}."
+        result_df = pd.DataFrame({
+            "event": [event.iloc[0, 1]],
+            "npc_1": [npc_1.iloc[0, 1]],
+            "npc_2": [npc_2.iloc[0,1]]
+        })
 
-        # console output for testing
-        # print(result)
-        return result
+        return result_df
 
     except Exception as e:
         print(f"Error: {e}")
@@ -159,18 +167,22 @@ def rollWilderness(session, table):
         item_5 = rollTable(session, "items")
 
         if table == "beaches":
-            table = "beache" # formats beach table to be "beach"
+            table = "beache"  # formats beach table to be "beach"
 
-        result = (
-                f"While traveling through the {table[:-1]}, " +
-                f"they come upon a/an {adjective} {terrain} {wilderness_desc}. " +
-                f"There appears to be a/an... {purpose} and inside is/a: " +
-                f"{item_1}, {item_2}, {item_3}, {item_4}, {item_5}"
-        )
+        result_df = pd.DataFrame({
+            "table": [table[:-1]],
+            "adjective": [adjective.iloc[0, 1]],
+            "terrain": [terrain.iloc[0, 1]],
+            "purpose": [purpose.iloc[0, 1]],
+            "wilderness_desc": [wilderness_desc.iloc[0, 1]],
+            "item_1": [item_1.iloc[0, 1]],
+            "item_2": [item_2.iloc[0, 1]],
+            "item_3": [item_3.iloc[0, 1]],
+            "item_4": [item_4.iloc[0, 1]],
+            "item_5": [item_5.iloc[0, 1]],
+        })
 
-        # console output for testing
-        # print(result)
-        return result
+        return result_df
 
     except Exception as e:
         print(f"Error: {e}")
@@ -180,6 +192,69 @@ def rollWilderness(session, table):
 
 
 def getEnumTable(session, choice):
+    enum_list = {
+        "1": "castles",
+        "2": "churches",
+        "3": "cities",
+        "4": "events",
+        "5": "villages",
+        "6": "deserts",
+        "7": "forests",
+        "8": "grasslands",
+        "9": "graveyards",
+        "10": "beaches",
+        "11": "mountains",
+        "12": "swamps",
+        "13": "setbacks",
+        "14": "tundras",
+        "15": "adventurers",
+        "16": "wizards",
+        "17": "bbegs",
+        "18": "monsters",
+        "19": "nobles",
+        "20": "priests",
+        "21": "npcs",
+        "22": "villagers",
+        "23": "blessings",
+        "24": "curses",
+        "25": "divinations",
+        "26": "meleecombat",
+        "27": "nightmares",
+        "28": "spellcasting",
+        "29": "magicitems",
+        "30": "potions",
+        "31": "items",
+        "32": "equipment"
+    }
+
+    # get table name of corresponding number for easy SQL queries
+    table = enum_list.get(f"{choice}")
+    choice_num = int(choice)
+
+    # Logic to select the correct output based on categories or specific tables:
+    if choice_num == 4:
+        result_df = rollTownEvent(session, table)
+        result_str = townEventString(result_df)
+    elif choice_num == 29:
+        result_df = rollMagicItems(session, table)
+        result_str = magicItemString(result_df)
+    elif choice_num == 30:
+        result_df = rollPotions(session, table)
+        result_str = potionsString(result_df)
+    elif 1 <= choice_num <= 5 or choice_num == 9:
+        result_df = rollCivilization(session, table)
+        result_str = civilizationString(result_df)
+    elif 6 <= choice_num <= 14 and choice_num != 9:
+        result_df = rollWilderness(session, table)
+        result_str = wildernessString(result_df)
+    else:
+        result_df = rollTable(session, table)
+        result_str = result_df.iloc[0, 1]
+
+    return result_str
+
+
+def getEnumDF(session, choice):
     enum_list = {
         "1": "castles",
         "2": "churches",
@@ -232,5 +307,4 @@ def getEnumTable(session, choice):
         return rollWilderness(session, table)
     else:
         return rollTable(session, table)
-
 

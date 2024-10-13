@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from flask import Flask, render_template, jsonify, request
 from database.menu import MainMenu
-from database.table import getEnumTable
+from database.table import getEnumTable, getEnumDF
 
 #TODO convert table functions to data frames and then make a convertToString taking the dataframe
 #TODO populate the dataframe and string conversion into the html
@@ -51,6 +51,19 @@ def roll():
     session.close()
     return jsonify({"result": result})
 
+@app.route("/roll-df", methods=["POST"])
+def roll_df():
+    category_id = request.json.get("category_id")
+    session = Session()
+    result = getEnumDF(session, category_id)
+    session.close()
+    return result
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
+
 # console output for testing
 """
 MainMenu(session)
@@ -69,9 +82,3 @@ while True:
 
 
 """
-
-#TEST for commit to github
-
-
-if __name__ == "__main__":
-    app.run(debug=True)
