@@ -25,10 +25,8 @@ from database.table import getEnumTable, getEnumDF
 app = Flask(__name__)
 
 # ------------Start Program
-db_username = os.environ.get("DB_USER")
-db_password = os.environ.get("DB_PASS")
-db_url = os.environ.get("DB_URL") #requires the last 13 characters to get the DB name
-engine = create_engine(f"postgresql://{db_username}:{db_password}@localhost:5432/{db_url[-13::]}")
+db_url = os.environ.get("dnd_gen_url")
+engine = create_engine(f"{db_url}")
 Session = sessionmaker(bind=engine)
 session = Session()
 
