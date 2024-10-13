@@ -47,27 +47,22 @@
             <div class="main">
                 <div id="result-container">
                     <h2>Result:</h2>
-                    <textarea id="result" readonly></textarea>
+                    <textarea id="result-json" readonly></textarea><!--results from /roll-->
                 </div>
-                <div id="result-table">
-                    <table>
-                        <caption>Result Table:</caption>
-                        <tr>
-                            <th>Description 1</th>
-                            <th>Description 2</th>
-                            <th>Description 3</th>
-                        </tr>
-                        <tr>
-                            <td>Result 1</td>
-                            <td>Result 2</td>
-                            <td>Result 3</td>
-                        </tr>
-                        <tr>
-                            <td>Result 1</td>
-                            <td>Result 2</td>
-                            <td>Result 3</td>
-                        </tr>
-                    </table>
+                <div id="result-df" style="margin-top:100px;">
+                    <h2>Result-Table:</h2>
+                <!-- Placeholder Table for UX-->
+                    <div id="result-table">
+                        <table>
+                            <tr>
+                                <th>Result</th>
+                            </tr>
+                            <tr>
+                                <td>Result</td>
+                            </tr>
+                        </table>
+                <!-- Results from roll-df placed here -->
+                    </div>
                 </div>
             </div>
 
@@ -106,10 +101,28 @@
                     contentType: "application/json",
                     data: JSON.stringify({ "category_id": categoryId }),
                     success: function (response) {
-                        $("#result").text(response.result);
+                        $("#result-json").text(response.result_json);
                     },
                     error: function () {
-                        $("#result").text("Error rolling the table.");
+                        $("#result-json").text("Error rolling the table.");
+                    }
+                });
+            });
+        });
+
+        $(document).ready(function () {
+            $(".roll-btn").click(function () {
+                var categoryId = $(this).data("category-id");
+                $.ajax({
+                    url: "/roll-df",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ "category_id": categoryId }),
+                    success: function (response) {
+                        $("#result-table").html(response.result_df);
+                    },
+                    error: function () {
+                        $("#result-table").html("Error rolling the table.");
                     }
                 });
             });

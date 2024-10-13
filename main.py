@@ -47,17 +47,18 @@ def index():
 def roll():
     category_id = request.json.get("category_id")
     session = Session()
-    result = getEnumTable(session, category_id)
+    result_json = getEnumTable(session, category_id)
     session.close()
-    return jsonify({"result": result})
+    return jsonify({"result_json": result_json})
 
 @app.route("/roll-df", methods=["POST"])
 def roll_df():
     category_id = request.json.get("category_id")
     session = Session()
-    result = getEnumDF(session, category_id)
+    result_df = getEnumDF(session, category_id)
     session.close()
-    return result
+    result_html = result_df.to_html(classes="table table-bordered")
+    return jsonify({"result_df": result_html})
 
 
 if __name__ == "__main__":

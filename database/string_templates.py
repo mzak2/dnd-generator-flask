@@ -5,8 +5,8 @@ import pandas as pd
 def civilizationString(df):
     result_str = df.apply(lambda row: (
         f"While traveling through the {row['table']}, " +
-        f"they come upon a/an {row['adjective']} {row['terrain']} {row['civil_desc']}.\n" +
-        f"There appears to be a/an...\n---{row['purpose']}\nInside is/a:\n" +
+        f"they come upon a/an:\n---{row['adjective']} {row['terrain']} {row['civil_desc']}.\n" +
+        f"There appears to be a/an:\n---{row['purpose']}\nInside is/a:\n" +
         f"---{row['item_1']}\n---{row['item_2']}\n---{row['item_3']}\n---{row['item_4']}\n---{row['item_5']}"
     ), axis=1).iloc[0]
 
@@ -36,8 +36,8 @@ def townEventString(df):
 def wildernessString(df):
     result_str = df.apply(lambda row: (
         f"While traveling through the {row['table']}, " +
-        f"they come upon a/an {row['adjective']} {row['terrain']} {row['wilderness_desc']}.\n" +
-        f"There appears to be a/an...\n---{row['purpose']}\nInside is/a:\n" +
+        f"they come upon a/an:\n---{row['adjective']} {row['terrain']} {row['wilderness_desc']}.\n" +
+        f"There appears to be a/an:\n---{row['purpose']}\nInside is/a:\n" +
         f"---{row['item_1']}\n---{row['item_2']}\n---{row['item_3']}\n---{row['item_4']}\n---{row['item_5']}"
     ), axis=1).iloc[0]
 
