@@ -40,6 +40,43 @@ def rollTable(session, table):
     finally:
         session.close()
 
+
+def rollCharacters(session, table):
+    try:
+        speech_speed = rollTable(session, "speech_speed")
+        speech_type = rollTable(session, "speech_type")
+        race = rollTable(session, "race")
+        race_color = rollTable(session, "race_color")
+        occupation = rollTable(session, "occupations")
+        clothing_state = rollTable(session, "clothing_state")
+        clothing = rollTable(session, "clothing")
+        npc_items = rollTable(session, "npc_items")
+        npc_quirks = rollTable(session, "npc_quirks")
+        colors = rollTable(session, "colors")
+
+        result_df = pd.DataFrame({
+            "table": table[:-1],
+            "speech_speed": [speech_speed.iloc[0, 1]],
+            "speech_type": [speech_type.iloc[0, 1]],
+            "race": [race.iloc[0, 1]],
+            "race_color": [race_color.iloc[0, 1]],
+            "occupation": [occupation.iloc[0, 1]],
+            "clothing_state": [clothing_state.iloc[0, 1]],
+            "clothing": [clothing.iloc[0, 1]],
+            "npc_items": [npc_items.iloc[0, 1]],
+            "npc_quirks": [npc_quirks.iloc[0, 1]],
+            "colors": [colors.iloc[0, 1]]
+        })
+
+        return result_df
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    finally:
+        session.close()
+
+
 # table matches enumerated tables 1-3, 5, and 9
 def rollCivilization(session, table):
     try:
@@ -234,8 +271,10 @@ def getEnumDF(session, choice):
         return rollPotions(session, table)
     elif 1 <= choice_num <= 5 or choice_num == 9:
         return rollCivilization(session, table)
-    elif 6 <= choice_num <= 14 and choice_num != 9:
+    elif 6 <= choice_num <= 14 and choice_num != 9 and choice_num != 13:
         return rollWilderness(session, table)
+    elif 15 <= choice_num <= 22:
+        return rollCharacters(session, table)
     else:
         return rollTable(session, table)
 

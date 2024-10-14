@@ -9,7 +9,7 @@ from flask import Flask, render_template, jsonify, request
 from database.menu import MainMenu
 from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
-    wildernessString
+    wildernessString, characterString
 
 #TODO convert table functions to data frames and then make a convertToString taking the dataframe
 #TODO populate the dataframe and string conversion into the html
@@ -61,8 +61,10 @@ def roll():
             result_str = potionsString(result_df)
         elif category_id > 0 and category_id < 6 or category_id == 9:
             result_str = civilizationString(result_df)
-        elif category_id >= 6 and category_id <15 and category_id != 9:
+        elif category_id >= 6 and category_id <15 and category_id != 9 and category_id != 13:
             result_str = wildernessString(result_df)
+        elif 15 <= category_id <= 22:
+            result_str = characterString(result_df)
         else:
             result_str = result_df.iloc[0, 1] if not result_df.empty else "No result available."
 
