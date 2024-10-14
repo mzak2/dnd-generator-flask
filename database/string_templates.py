@@ -8,9 +8,9 @@ def characterString(df):
     result_str = (
         f"Before you is a:\n---{row['table']} {row['occupation']}\n" +
         f"Who appears to be a/an:\n---{row['race_color']} skinned {row['race']}\n" +
-        f"speaking:\n---{row['speech_speed']} and {row['speech_type']} \n" +
-        f"Their Clothes are:\n---{row['clothing_state']} {row['clothing']} and carries a {row['npc_items']}\n" +
-        f"Finally they have a:\n---{row['npc_quirks']} and a color motif of {row['colors']}"
+        f"Who speaks:\n---{row['speech_speed']} and {row['speech_type']} \n" +
+        f"Their Clothing is a/an:\n---{row['clothing_state']} {row['clothing']} and carries a/an {row['npc_items']}\n" +
+        f"Finally they have a/an:\n---{row['npc_quirks']} and a color motif of {row['colors']}"
     )
 
     return result_str

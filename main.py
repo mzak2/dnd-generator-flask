@@ -11,14 +11,12 @@ from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
     wildernessString, characterString
 
-#TODO convert table functions to data frames and then make a convertToString taking the dataframe
-#TODO populate the dataframe and string conversion into the html
+#TODO change the terrain in Civilization to be corridors not based on Wilderness travel
+#TODO fix tables that are currently placeholders
 #TODO make textbox the right size for all text
 #TODO make textbox float as you scroll down page
 #TODO fix coloring/CSS
-#TODO fix tables that are currently placeholders
 #TODO fix CSV files and figure out storage
-#TODO change ENV variables instead of using postgres username/pin
 #TODO containerize it to launch on docker
 #TODO make it an executable that instantly launches to web page
 #TODO make it open to local network
