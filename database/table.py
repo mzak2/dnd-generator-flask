@@ -41,6 +41,25 @@ def rollTable(session, table):
         session.close()
 
 
+def rollBlessingOrCurse(session, table):
+    try:
+        effect = rollTable(session, table)
+        duration = rollTable(session, "durations")
+
+        result_df = pd.DataFrame({
+            "effect": [effect.iloc[0, 1]],
+            "duration": [duration.iloc[0, 1]]
+        })
+
+        return result_df
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    finally:
+        session.close()
+
+
 def rollCharacters(session, table):
     try:
         speech_speed = rollTable(session, "speech_speed")
@@ -275,6 +294,8 @@ def getEnumDF(session, choice):
         return rollWilderness(session, table)
     elif 15 <= choice_num <= 22:
         return rollCharacters(session, table)
+    elif choice_num == 23 or choice_num == 24:
+        return rollBlessingOrCurse(session, table)
     else:
         return rollTable(session, table)
 

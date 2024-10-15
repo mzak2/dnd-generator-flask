@@ -2,6 +2,15 @@ import warnings
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 import pandas as pd
 
+def blessingOrCurseString(df):
+    row = df.iloc[0]
+
+    result_str = (
+        f"You gain:\n---{row['effect']}\nwith a duration of:\n---{row['duration']}"
+    )
+
+    return result_str
+
 def characterString(df):
     row = df.iloc[0]
 

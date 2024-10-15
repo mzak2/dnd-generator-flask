@@ -9,7 +9,7 @@ from flask import Flask, render_template, jsonify, request
 from database.menu import MainMenu
 from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
-    wildernessString, characterString
+    wildernessString, characterString, blessingOrCurseString
 
 #TODO change the terrain in Civilization to be corridors not based on Wilderness travel
 #TODO fix tables that are currently placeholders
@@ -63,8 +63,11 @@ def roll():
             result_str = wildernessString(result_df)
         elif 15 <= category_id <= 22:
             result_str = characterString(result_df)
+        elif category_id == 23 or category_id == 24:
+            result_str = blessingOrCurseString(result_df)
         else:
             result_str = result_df.iloc[0, 1] if not result_df.empty else "No result available."
+
 
         result_html = result_df.to_html(classes="table table-bordered")
 
