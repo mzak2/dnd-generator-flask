@@ -182,8 +182,8 @@ def rollPotions(session, table):
 def rollTownEvent(session, table):
     try:
         event = rollTable(session, table)
-        npc_1 = rollTable(session, "npcs")
-        npc_2 = rollTable(session, "npcs")
+        npc_1 = rollTable(session, "occupations")
+        npc_2 = rollTable(session, "occupations")
 
         result_df = pd.DataFrame({
             "event": [event.iloc[0, 1]],

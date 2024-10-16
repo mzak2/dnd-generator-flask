@@ -1,3 +1,4 @@
+import random
 import warnings
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 import pandas as pd
@@ -59,9 +60,23 @@ def potionsString(df):
 def townEventString(df):
     row = df.iloc[0]
 
+    roll = random.randint(1,5)
+
+    if roll == 1:
+        conversation = "Conversation"
+    elif roll == 2:
+        conversation = "Business Transaction"
+    elif roll == 3:
+        conversation = "Argument"
+    elif roll == 4:
+        conversation = "Disagreement"
+    else:
+        conversation = "Casual Conversation"
+
+
     result_str = (
-        f"While traveling through town, you come upon a: {row['npc_1']}, " +
-        f"currently: {row['event']}, with a/an: {row['npc_2']}."
+        f"While traveling through town, you come upon a:\n---{row['npc_1']}\n" +
+        f"currently in a/an:\n---{conversation}\nwith a/an:\n---{row['npc_2']}\nabout:\n---{row['event']}"
     )
 
     return result_str

@@ -11,7 +11,10 @@ from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
     wildernessString, characterString, blessingOrCurseString
 
-#TODO change the terrain in Civilization to be corridors not based on Wilderness travel
+#TODO types of magic for priest/wizards
+#TODO add names to NPCs
+#TODO town generation architecture/building materials
+#TODO add nightmares/divinations
 #TODO fix tables that are currently placeholders
 #TODO make textbox the right size for all text
 #TODO make textbox float as you scroll down page
