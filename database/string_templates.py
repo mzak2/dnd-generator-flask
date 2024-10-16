@@ -27,10 +27,12 @@ def characterString(df):
 def civilizationString(df):
     row = df.iloc[0]
 
+    if row['table'] == "dungeonrooms":
+        row['table'] = "Dungeon"
+
     result_str = (
-        f"While traveling through the {row['table']}, " +
-        f"they come upon a/an:\n---{row['adjective']} {row['terrain']} {row['civil_desc']}.\n" +
-        f"There appears to be a/an:\n---{row['purpose']}\nInside is/a:\n" +
+        f"While traveling through the {row['table']}, they come upon a/an:\n---{row['adjective']} {row['civil_desc']}\n" +
+        f"It is used as or depicts a/an:\n---{row['purpose']}\nInside is/a:\n" +
         f"---{row['item_1']}\n---{row['item_2']}\n---{row['item_3']}\n---{row['item_4']}\n---{row['item_5']}"
     )
 

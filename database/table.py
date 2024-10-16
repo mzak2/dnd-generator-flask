@@ -100,7 +100,6 @@ def rollCharacters(session, table):
 def rollCivilization(session, table):
     try:
         adjective = rollTable(session, "adjectives")
-        terrain = rollTable(session, "terrain")
         purpose = rollTable(session, "purpose")
         civil_desc = rollTable(session, table)
         item_1 = rollTable(session, "items")
@@ -124,7 +123,6 @@ def rollCivilization(session, table):
         result_df = pd.DataFrame({
             "table": [table],
             "adjective": [adjective.iloc[0, 1]],
-            "terrain": [terrain.iloc[0, 1]],
             "purpose": [purpose.iloc[0, 1]],
             "civil_desc": [civil_desc.iloc[0, 1]],
             "item_1": [item_1.iloc[0, 1]],
@@ -247,7 +245,7 @@ def getEnumDF(session, choice):
         "2": "churches",
         "3": "cities",
         "4": "events",
-        "5": "villages",
+        "5": "dungeonrooms",
         "6": "deserts",
         "7": "forests",
         "8": "grasslands",
