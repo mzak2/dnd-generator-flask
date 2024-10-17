@@ -11,7 +11,7 @@ from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
     wildernessString, characterString, blessingOrCurseString
 
-#TODO types of magic for priest/wizards
+#TODO add scroll bar to move categories down and up with the screen
 #TODO town generation architecture/building materials
 #TODO add nightmares/divinations
 #TODO fix tables that are currently placeholders

@@ -16,7 +16,7 @@ def characterString(df):
     row = df.iloc[0]
 
     result_str = (
-        f"Before you is a/an:\n---{row['table']} {row['occupation']}\n" +
+        f"Before you is a/an:\n---{row['table']} and a/an {row['occupation']}\n" +
         f"---Male-Name: {row['male']} ---Female-Name: {row['female']} ---Last-Name: {row['last_name']}\n" +
         f"Who appears to be a/an:\n---{row['skin']} skinned {row['race']}\n" +
         f"Who speaks:\n---{row['speech_spd']} and {row['speech_type']}\n" +
