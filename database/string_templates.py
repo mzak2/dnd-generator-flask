@@ -16,11 +16,12 @@ def characterString(df):
     row = df.iloc[0]
 
     result_str = (
-        f"Before you is a:\n---{row['table']} {row['occupation']}\n" +
-        f"Who appears to be a/an:\n---{row['race_color']} skinned {row['race']}\n" +
-        f"Who speaks:\n---{row['speech_speed']} and {row['speech_type']} \n" +
-        f"Their Clothing is a/an:\n---{row['clothing_state']} {row['clothing']} and carries a/an {row['npc_items']}\n" +
-        f"Finally they have a/an:\n---{row['npc_quirks']} and a color motif of {row['colors']}"
+        f"Before you is a/an:\n---{row['table']} {row['occupation']}\n" +
+        f"---Male-Name: {row['male']} ---Female-Name: {row['female']} ---Last-Name: {row['last_name']}\n" +
+        f"Who appears to be a/an:\n---{row['skin']} skinned {row['race']}\n" +
+        f"Who speaks:\n---{row['speech_spd']} and {row['speech_type']}\n" +
+        f"Their Clothing is a/an:\n---{row['clothing_state']} {row['clothing']} and carries a/an {row['items']}\n" +
+        f"Finally they have a/an:\n---{row['quirk']} and a color motif of {row['colors']}"
     )
 
     return result_str

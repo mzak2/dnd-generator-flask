@@ -62,29 +62,35 @@ def rollBlessingOrCurse(session, table):
 
 def rollCharacters(session, table):
     try:
-        speech_speed = rollTable(session, "speech_speed")
+        speech_spd = rollTable(session, "speech_speed")
         speech_type = rollTable(session, "speech_type")
         race = rollTable(session, "race")
-        race_color = rollTable(session, "race_color")
+        skin = rollTable(session, "race_color")
         occupation = rollTable(session, "occupations")
         clothing_state = rollTable(session, "clothing_state")
         clothing = rollTable(session, "clothing")
-        npc_items = rollTable(session, "npc_items")
-        npc_quirks = rollTable(session, "npc_quirks")
+        items = rollTable(session, "npc_items")
+        quirk = rollTable(session, "npc_quirks")
         colors = rollTable(session, "colors")
+        male = rollTable(session, "names_male")
+        female = rollTable(session, "names_female")
+        last_name = rollTable(session, "names_last")
 
         result_df = pd.DataFrame({
             "table": table[:-1],
-            "speech_speed": [speech_speed.iloc[0, 1]],
+            "speech_spd": [speech_spd.iloc[0, 1]],
             "speech_type": [speech_type.iloc[0, 1]],
             "race": [race.iloc[0, 1]],
-            "race_color": [race_color.iloc[0, 1]],
+            "skin": [skin.iloc[0, 1]],
             "occupation": [occupation.iloc[0, 1]],
             "clothing_state": [clothing_state.iloc[0, 1]],
             "clothing": [clothing.iloc[0, 1]],
-            "npc_items": [npc_items.iloc[0, 1]],
-            "npc_quirks": [npc_quirks.iloc[0, 1]],
-            "colors": [colors.iloc[0, 1]]
+            "items": [items.iloc[0, 1]],
+            "quirk": [quirk.iloc[0, 1]],
+            "colors": [colors.iloc[0, 1]],
+            "male": [male.iloc[0, 1]],
+            "female": [female.iloc[0, 1]],
+            "last_name": [last_name.iloc[0, 1]]
         })
 
         return result_df

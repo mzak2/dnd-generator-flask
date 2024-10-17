@@ -12,7 +12,6 @@ from database.string_templates import townEventString, magicItemString, potionsS
     wildernessString, characterString, blessingOrCurseString
 
 #TODO types of magic for priest/wizards
-#TODO add names to NPCs
 #TODO town generation architecture/building materials
 #TODO add nightmares/divinations
 #TODO fix tables that are currently placeholders
