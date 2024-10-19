@@ -58,6 +58,20 @@ def potionsString(df):
 
     return result_str
 
+
+def setbackString(df):
+    row = df.iloc[0]
+
+    if 'description' in df.columns and pd.notna(row['description']):
+        result_str = f"The party is unable to continue because they find:\n---{row['description']}"
+    elif 'ration' in df.columns and pd.notna(row['ration']):
+        result_str = f"The party finds themselves famished, roll a:\n---{row['ration']} for the amount of rations they've consumed"
+    else:
+        result_str = "Error rolling setbacks table"
+
+    return result_str
+
+
 def townEventString(df):
     row = df.iloc[0]
 

@@ -1,3 +1,4 @@
+import random
 import warnings
 warnings.simplefilter(action='ignore', category=DeprecationWarning)
 import pandas as pd
@@ -9,8 +10,10 @@ from flask import Flask, render_template, jsonify, request
 from database.menu import MainMenu
 from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
-    wildernessString, characterString, blessingOrCurseString
+    wildernessString, characterString, blessingOrCurseString, setbackString
 
+#TODO add traps to Items
+#TODO rework MeleeCombat to be MeleeNat20s and SpellCasting to be SpellNat20s
 #TODO add scroll bar to move categories down and up with the screen
 #TODO town generation architecture/building materials
 #TODO add nightmares/divinations
@@ -67,6 +70,8 @@ def roll():
             result_str = characterString(result_df)
         elif category_id == 23 or category_id == 24:
             result_str = blessingOrCurseString(result_df)
+        elif category_id == 13:
+            result_str = setbackString(result_df)
         else:
             result_str = result_df.iloc[0, 1] if not result_df.empty else "No result available."
 

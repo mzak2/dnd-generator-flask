@@ -307,6 +307,16 @@ def getEnumDF(session, choice):
         return rollCharacters(session, table)
     elif choice_num == 23 or choice_num == 24:
         return rollBlessingOrCurse(session, table)
+    elif choice_num == 13:
+        coinflip = random.randint(1, 2)
+
+        if coinflip == 1:
+            ration = {"ration": ["1d4"]}
+            result_df = pd.DataFrame(data=ration)
+
+            return result_df
+        else:
+            return rollTable(session, table)
     else:
         return rollTable(session, table)
 
