@@ -10,7 +10,7 @@ from flask import Flask, render_template, jsonify, request
 from database.menu import MainMenu
 from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
-    wildernessString, characterString, blessingOrCurseString, setbackString
+    wildernessString, characterString, blessingOrCurseString, setbackString, criticalString, bookString
 
 #TODO add traps to Items
 #TODO rework MeleeCombat to be MeleeNat20s and SpellCasting to be SpellNat20s
@@ -58,6 +58,10 @@ def roll():
 
         if category_id == 4:
             result_str = townEventString(result_df)
+        elif category_id == 26:
+            result_str = criticalString(result_df)
+        elif category_id == 28:
+            result_str = bookString(result_df)
         elif category_id == 29:
             result_str = magicItemString(result_df)
         elif category_id == 30:
@@ -66,7 +70,7 @@ def roll():
             result_str = civilizationString(result_df)
         elif category_id >= 6 and category_id <15 and category_id != 9 and category_id != 13:
             result_str = wildernessString(result_df)
-        elif 15 <= category_id <= 22:
+        elif 15 <= category_id <= 22 and category_id != 18:
             result_str = characterString(result_df)
         elif category_id == 23 or category_id == 24:
             result_str = blessingOrCurseString(result_df)

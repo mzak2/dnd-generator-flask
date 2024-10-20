@@ -12,8 +12,41 @@ def blessingOrCurseString(df):
 
     return result_str
 
+def bookString(df):
+
+    roll = random.randint(1, 6)
+
+    if roll == 1:
+        time_period = "Ancient Text"
+    elif roll == 2:
+        time_period = "Novel"
+    elif roll == 3:
+        time_period = "Modern Depiction"
+    elif roll == 4:
+        time_period = "Recent Dissertation"
+    elif roll == 5:
+        time_period = "Comic Book"
+    else:
+        time_period = "Mysterious Text"
+
+    row = df.iloc[0]
+
+    result_str = (
+        f"The text before you is a/an:\n---{time_period}\n" +
+        f"Titled:\n---{row.iloc[1]}"
+    )
+
+    return result_str
+
 def characterString(df):
     row = df.iloc[0]
+
+    if row['table'] == 'adventurer':
+        row['table'] = 'Adventurer'
+    elif row['table'] == 'npcs':
+        row['table'] = 'NPC'
+    elif row['table'] == 'bbegs':
+        row['table'] = 'BBEG'
 
     result_str = (
         f"Before you is a/an:\n---{row['table']} and a/an {row['occupation']}\n" +
@@ -36,6 +69,17 @@ def civilizationString(df):
         f"While traveling through the {row['table']}, they come upon a/an:\n---{row['adjective']} {row['civil_desc']}\n" +
         f"It is used as or depicts a/an:\n---{row['purpose']}\nInside is/a:\n" +
         f"---{row['item_1']}\n---{row['item_2']}\n---{row['item_3']}\n---{row['item_4']}\n---{row['item_5']}"
+    )
+
+    return result_str
+
+
+def criticalString(df):
+    row = df.iloc[0]
+
+    result_str = (
+        f"The result of your Critical Failure/Success is that your attack:\n---{row['combat_desc']}\n" +
+        f"With the effect of:\n---{row['effect']}"
     )
 
     return result_str

@@ -153,6 +153,26 @@ def rollCivilization(session, table):
     finally:
         session.close()
 
+
+def rollCritical(session, table):
+    try:
+        effect = rollTable(session, "criticaleffects")
+        combat_desc = rollTable(session, "combatdesc")
+
+        result_df = pd.DataFrame({
+            "effect": [effect.iloc[0, 1]],
+            "combat_desc": [combat_desc.iloc[0, 1]]
+        })
+
+        return result_df
+
+    except Exception as e:
+        print(f"Error: {e}")
+
+    finally:
+        session.close()
+
+
 # table is called "magicitems"
 def rollMagicItems(session, table):
     try:
@@ -272,16 +292,16 @@ def getEnumDF(session, choice):
         "16": "wizards",
         "17": "bbegs",
         "18": "monsters",
-        "19": "nobles",
+        "19": "nobles", # removed
         "20": "priests",
         "21": "npcs",
-        "22": "villagers",
+        "22": "villagers", # removed
         "23": "blessings",
         "24": "curses",
         "25": "divinations",
-        "26": "meleecombat",
+        "26": "criticaleffects",
         "27": "nightmares",
-        "28": "spellcasting",
+        "28": "Books",
         "29": "magicitems",
         "30": "potions",
         "31": "items",
@@ -299,11 +319,13 @@ def getEnumDF(session, choice):
         return rollMagicItems(session, table)
     elif choice_num == 30:
         return rollPotions(session, table)
+    elif choice_num == 26:
+        return rollCritical(session, table)
     elif 1 <= choice_num <= 5 or choice_num == 9:
         return rollCivilization(session, table)
     elif 6 <= choice_num <= 14 and choice_num != 9 and choice_num != 13:
         return rollWilderness(session, table)
-    elif 15 <= choice_num <= 22:
+    elif 15 <= choice_num <= 22 and choice_num != 18:
         return rollCharacters(session, table)
     elif choice_num == 23 or choice_num == 24:
         return rollBlessingOrCurse(session, table)
