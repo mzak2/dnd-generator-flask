@@ -173,6 +173,35 @@ def rollCritical(session, table):
         session.close()
 
 
+def rollDivination(session, table):
+    try:
+        adjective_1 = rollTable(session, "adjectives")
+        adjective_2 = rollTable(session, "adjectives")
+        thing_1 = rollTable(session, "monsters")
+        thing_2 = rollTable(session, "monsters")
+        table = rollTable(session, "divinations")
+        verb_1 = rollTable(session, "verbs")
+        verb_2 = rollTable(session, "verbs")
+
+        result_df = pd.DataFrame({
+            "adjective_1": [adjective_1.iloc[0, 1]],
+            "adjective_2": [adjective_2.iloc[0, 1]],
+            "thing_1": [thing_1.iloc[0, 1]],
+            "thing_2": [thing_2.iloc[0, 1]],
+            "verb_1": [verb_1.iloc[0, 1]],
+            "verb_2": [verb_2.iloc[0, 1]],
+            "divination": [table.iloc[0, 1]]
+        })
+
+        return result_df
+
+    except Exception as e:
+        print(f"Error:{e}")
+
+    finally:
+        session.close()
+
+
 # table is called "magicitems"
 def rollMagicItems(session, table):
     try:
@@ -300,7 +329,7 @@ def getEnumDF(session, choice):
         "24": "curses",
         "25": "divinations",
         "26": "criticaleffects",
-        "27": "nightmares",
+        "27": "nightmares", # removed
         "28": "Books",
         "29": "magicitems",
         "30": "potions",
@@ -315,12 +344,14 @@ def getEnumDF(session, choice):
     # logic to select the correct output based on categories or specific tables:
     if choice_num == 4:
         return rollTownEvent(session, table)
+    elif choice_num == 25:
+        return rollDivination(session, table)
+    elif choice_num == 26:
+        return rollCritical(session, table)
     elif choice_num == 29:
         return rollMagicItems(session, table)
     elif choice_num == 30:
         return rollPotions(session, table)
-    elif choice_num == 26:
-        return rollCritical(session, table)
     elif 1 <= choice_num <= 5 or choice_num == 9:
         return rollCivilization(session, table)
     elif 6 <= choice_num <= 14 and choice_num != 9 and choice_num != 13:

@@ -93,6 +93,20 @@ def magicItemString(df):
 
     return result_str
 
+
+def divinationString(df):
+    row = df.iloc[0]
+
+    result_str = (
+        #When the Lustruous Crow Falls and the Monstrous Sword Glares, the Gods will fall
+        f"When the:\n---{row['adjective_1']} {row['thing_1']} {row['verb_1']}\n" +
+        f"and the:\n---{row['adjective_2']} {row['thing_2']} {row['verb_2']}\n" +
+        f"----------------------------------\n{row['divination']}"
+    )
+
+    return result_str
+
+
 def potionsString(df):
     row = df.iloc[0]
 

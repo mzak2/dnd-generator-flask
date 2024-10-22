@@ -10,9 +10,11 @@ from flask import Flask, render_template, jsonify, request
 from database.menu import MainMenu
 from database.table import getEnumDF
 from database.string_templates import townEventString, magicItemString, potionsString, civilizationString, \
-    wildernessString, characterString, blessingOrCurseString, setbackString, criticalString, bookString
+    wildernessString, characterString, blessingOrCurseString, setbackString, criticalString, bookString, \
+    divinationString
 
 #TODO add traps to Items
+#TODO add Dungeon room type 1d6: Fight, Puzzle, NPC, Trap, Altar, 1d3: Elite/Patrol/Treasure
 #TODO rework MeleeCombat to be MeleeNat20s and SpellCasting to be SpellNat20s
 #TODO add scroll bar to move categories down and up with the screen
 #TODO town generation architecture/building materials
@@ -58,6 +60,8 @@ def roll():
 
         if category_id == 4:
             result_str = townEventString(result_df)
+        elif category_id == 25:
+            result_str = divinationString(result_df)
         elif category_id == 26:
             result_str = criticalString(result_df)
         elif category_id == 28:
