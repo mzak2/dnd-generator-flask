@@ -33,7 +33,8 @@ from database.string_templates import townEventString, magicItemString, potionsS
 app = Flask(__name__)
 
 # ------------Start Program
-db_url = os.environ.get("dnd_gen_url")
+db_url = os.environ.get("dnd_gen_docker") #connects to the docker version
+#db_url = os.environ.get("dnd_gen_url") #use for local/testing
 engine = create_engine(f"{db_url}")
 Session = sessionmaker(bind=engine)
 session = Session()
@@ -74,7 +75,7 @@ def roll():
             result_str = civilizationString(result_df)
         elif category_id >= 6 and category_id <15 and category_id != 9 and category_id != 13:
             result_str = wildernessString(result_df)
-        elif 15 <= category_id <= 22 and category_id != 18:
+        elif 15 <= category_id <= 22 and category_id != 18 and category_id != 19:
             result_str = characterString(result_df)
         elif category_id == 23 or category_id == 24:
             result_str = blessingOrCurseString(result_df)

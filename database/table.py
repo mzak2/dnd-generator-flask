@@ -321,7 +321,7 @@ def getEnumDF(session, choice):
         "16": "wizards",
         "17": "bbegs",
         "18": "monsters",
-        "19": "nobles", # removed
+        "19": "dungeonroom_types", # removed
         "20": "priests",
         "21": "npcs",
         "22": "villagers", # removed
@@ -356,7 +356,7 @@ def getEnumDF(session, choice):
         return rollCivilization(session, table)
     elif 6 <= choice_num <= 14 and choice_num != 9 and choice_num != 13:
         return rollWilderness(session, table)
-    elif 15 <= choice_num <= 22 and choice_num != 18:
+    elif 15 <= choice_num <= 22 and choice_num != 18 and choice_num != 19:
         return rollCharacters(session, table)
     elif choice_num == 23 or choice_num == 24:
         return rollBlessingOrCurse(session, table)
